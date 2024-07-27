@@ -9,7 +9,7 @@
 }
 
 body {
-	@apply flex  min-w-[320px] flex-col items-center  bg-secondary text-primary pt-10;
+	@apply flex  min-w-[320px] flex-col items-center  bg-secondary text-primary font-nunito;
 }
 
 main {
