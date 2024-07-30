@@ -1,29 +1,63 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import { Input } from './components'
+
+const REGIONAL_COEFFICIENT = 1.65
+const TAX_PERCENT = 13
 
 function App() {
 	const [total, setTotal] = useState(0)
-	const REGINAL_COEFFICIENT = 1.65
-	const TAX_PERCENT = 13
+	const [taxPercent, setTaxPercent] = useState(TAX_PERCENT)
+	const [regionalCoefficient, setRegionalCoefficient] =
+		useState(REGIONAL_COEFFICIENT)
+	const [inputValue, setInputValue] = useState(0)
 
-	function handleChange(e: ChangeEvent<HTMLInputElement>): void {
+	const calculateTotal = useCallback(() => {
 		const value =
-			+e.target.value * REGINAL_COEFFICIENT -
-			(+e.target.value * REGINAL_COEFFICIENT * TAX_PERCENT) / 100
-
+			inputValue * regionalCoefficient -
+			(inputValue * regionalCoefficient * taxPercent) / 100
 		setTotal(value)
+	}, [inputValue, regionalCoefficient, taxPercent])
+
+	const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
+		setInputValue(+e.target.value)
 	}
 
+	const handleTaxPercentChange = (e: ChangeEvent<HTMLInputElement>): void => {
+		setTaxPercent(+e.target.value)
+	}
+
+	const handleRegionalCoefficientChange = (
+		e: ChangeEvent<HTMLInputElement>
+	): void => {
+		setRegionalCoefficient(+e.target.value)
+	}
+
+	useEffect(() => {
+		calculateTotal()
+	}, [calculateTotal])
+
 	return (
-		<main>
+		<main className='mx-auto '>
 			<h1 className='text-3xl font-bold'>Расчет ЗП</h1>
 			<div className='flex flex-col gap-3 my-5'>
-				<div>
-					<input
-						className='min-h-10 p-2 text-xl font-bold text-black rounded-lg'
-						type='text'
-						onChange={handleChange}
-					/>
-				</div>
+				<Input
+					id='tax'
+					label='Процентная ставка %:'
+					value={taxPercent}
+					onChange={handleTaxPercentChange}
+				/>
+				<Input
+					id='regional'
+					label='Региональный коэффициент:'
+					value={regionalCoefficient}
+					onChange={handleRegionalCoefficientChange}
+				/>
+				<Input
+					id='val'
+					label='Введите значение:'
+					value={inputValue}
+					onChange={handleInputChange}
+				/>
 				<div>
 					<span>{total} руб.</span>
 				</div>
