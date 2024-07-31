@@ -37,7 +37,7 @@ function App() {
 	}, [calculateTotal])
 
 	return (
-		<main className='mx-auto '>
+		<main className='mx-auto'>
 			<h1 className='text-3xl font-bold'>Расчет ЗП</h1>
 			<div className='flex flex-col gap-3 my-5'>
 				<Input
@@ -58,8 +58,8 @@ function App() {
 					value={inputValue}
 					onChange={handleInputChange}
 				/>
-				<div>
-					<span>{total} руб.</span>
+				<div className='grid place-content-center'>
+					<span className='text-2xl'>{total} руб.</span>
 				</div>
 			</div>
 		</main>
