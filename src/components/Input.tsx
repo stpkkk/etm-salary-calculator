@@ -1,22 +1,24 @@
-import { ChangeEvent } from 'react'
+import { useForm } from 'react-hook-form'
 
 interface InputProps {
-	id: string
+	name: string
 	label: string
-	value: number
-	onChange: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
-function Input({ id, value, onChange, label }: InputProps) {
+function Input({ name, label }: InputProps) {
+	const { register } = useForm()
+
 	return (
-		<div className='flex flex-col gap-2'>
-			<label htmlFor={id}>{label}</label>
+		<div>
+			<label htmlFor={name} className=' block mb-1 text-sm font-medium'>
+				{label}
+			</label>
 			<input
-				id={id}
-				value={value}
-				className='min-h-10 p-2 text-xl font-bold text-black rounded-lg'
-				type='text'
-				onChange={onChange}
+				id={name}
+				type='number'
+				step='0.01'
+				{...register(name)}
+				className='min-h-10 w-full p-2 text-xl font-bold text-black border border-gray-300 rounded-lg'
 			/>
 		</div>
 	)
